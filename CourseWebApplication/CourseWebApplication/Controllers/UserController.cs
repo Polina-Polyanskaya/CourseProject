@@ -27,7 +27,7 @@ namespace WebApp.Controllers
             _contextAccessor = contextAccessor;
         }
 
-        [HttpPost("register")]
+        [HttpPost("Register")]
         [AllowAnonymous]
         public async Task<ActionResult> Register(RegisterRequest user)
         {
@@ -37,6 +37,9 @@ namespace WebApp.Controllers
             string error = Errors.HasAnyErrors(user.Login, user.Password);
             if (!string.IsNullOrEmpty(error))
                 return BadRequest(error);
+
+            if (!EmailAddressLibrary.EmailAddressValidator.Msdn(user.Email))
+                return BadRequest("Wrong email");
 
             var model = _mapper.Map<User>(user);
             error = await _userService.AddUser(model);
@@ -80,7 +83,7 @@ namespace WebApp.Controllers
             return Ok();
         }
 
-        [HttpPost("checkUser")]
+        [HttpPost("CheckUser")]
         [AllowAnonymous]
         public async Task<ActionResult> CheckUser(CheckUserRequest user)
         {

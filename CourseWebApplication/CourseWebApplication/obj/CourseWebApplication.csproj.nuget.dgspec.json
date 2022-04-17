@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\CourseWebApplication\\CourseWebApplication\\CourseWebApplication.csproj": {}
+    "C:\\Users\\papol\\OneDrive\\Документы\\GitHub\\CourseProject\\CourseWebApplication\\CourseWebApplication\\CourseWebApplication.csproj": {}
   },
   "projects": {
-    "D:\\CourseWebApplication\\CourseWebApplication\\CourseWebApplication.csproj": {
+    "C:\\Users\\papol\\OneDrive\\Документы\\GitHub\\CourseProject\\CourseWebApplication\\CourseWebApplication\\CourseWebApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CourseWebApplication\\CourseWebApplication\\CourseWebApplication.csproj",
+        "projectUniqueName": "C:\\Users\\papol\\OneDrive\\Документы\\GitHub\\CourseProject\\CourseWebApplication\\CourseWebApplication\\CourseWebApplication.csproj",
         "projectName": "CourseWebApplication",
-        "projectPath": "D:\\CourseWebApplication\\CourseWebApplication\\CourseWebApplication.csproj",
-        "packagesPath": "C:\\Users\\79261\\.nuget\\packages\\",
-        "outputPath": "D:\\CourseWebApplication\\CourseWebApplication\\obj\\",
+        "projectPath": "C:\\Users\\papol\\OneDrive\\Документы\\GitHub\\CourseProject\\CourseWebApplication\\CourseWebApplication\\CourseWebApplication.csproj",
+        "packagesPath": "C:\\Users\\papol\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\papol\\OneDrive\\Документы\\GitHub\\CourseProject\\CourseWebApplication\\CourseWebApplication\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\79261\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\papol\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -51,6 +55,10 @@
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
+            },
+            "EmailAddress": {
+              "target": "Package",
+              "version": "[4.1.0, )"
             },
             "GeoCoordinate.NetCore": {
               "target": "Package",
@@ -149,7 +157,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

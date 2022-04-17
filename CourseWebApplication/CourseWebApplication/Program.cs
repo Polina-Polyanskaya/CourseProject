@@ -16,7 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reader API", Version = "1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "CourseWebApplication", Version = "1" });
 
     var securityScheme = new OpenApiSecurityScheme
     {

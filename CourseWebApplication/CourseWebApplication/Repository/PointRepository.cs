@@ -36,7 +36,7 @@ namespace CourseWebApplication.Repository
 
         public async Task<Point> GetPointByCoordinates(PointRequest pointRequest)
         {
-            return await _context.Points.SingleOrDefaultAsync(x => x.Longitude == pointRequest.Longitude && x.Latitude == x.Latitude);
+            return await _context.Points.SingleOrDefaultAsync(x => x.Longitude == pointRequest.Longitude && x.Latitude == pointRequest.Latitude);
         }
 
         public async Task<string> AddPointInfo(InfoRequest info)
@@ -44,14 +44,16 @@ namespace CourseWebApplication.Repository
             var foundPoint = await _context.Points.SingleOrDefaultAsync(x =>x.Id.ToString() == info.Id );
             if (foundPoint == null)
                 return "Did not found point with this id";
-            var foundPointInfo = await _context.PointsInformation.AnyAsync(x => x.PointId.ToString() == info.Id && x.Message == info.Message && x.Date==info.Date);
+            var date=Convert.ToDateTime(info.Date);
+
+            var foundPointInfo = await _context.PointsInformation.AnyAsync(x => x.PointId.ToString() == info.Id && x.Message == info.Message && x.Date==date.ToShortDateString());
             if (foundPointInfo)
                 return "Already exists this info";
             await _context.PointsInformation.AddAsync(new PointInformation
             {
                 Id = new Guid(),
                 PointId=Guid.Parse((ReadOnlySpan<char>)info.Id),
-                Date =info.Date,
+                Date =date.ToShortDateString(),
                 Message=info.Message,
             });
 
@@ -67,21 +69,24 @@ namespace CourseWebApplication.Repository
             var foundPoint = await _context.Points.SingleOrDefaultAsync(x => x.Id.ToString() == messagesRequest.Id);
             if (foundPoint == null)
             {
-                error = "Did not found point with this id";
+                error = "Did not find point with this id";
                 return (null, error);
             }
 
-            var pointInformation = _context.PointsInformation.Where(x => x.Id.ToString()==messagesRequest.Id && x.Date == messagesRequest.Date).ToList();    
+            var requestDate = Convert.ToDateTime(messagesRequest.Date);
+            var pointInformation = _context.PointsInformation.Where(x => x.PointId.ToString()==messagesRequest.Id && x.Date == requestDate.ToShortDateString()).ToList();
+           
             var messages=new List<string>();
             foreach(var message in pointInformation)
                 messages.Add(message.Message);
+
             return (messages, null);
         }
 
         public List<(double, double)> GetAllCoordinates()
         {
             var coordinates=new List<(double, double)>();
-            foreach(var point in _context.Points)
+            foreach (var point in _context.Points)
             {
                 coordinates.Add((point.Latitude, point.Longitude));
             }

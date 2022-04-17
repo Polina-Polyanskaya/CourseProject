@@ -19,7 +19,7 @@ namespace CourseWebApplication.Controllers
             _pointRepository = pointRepository;
         }
 
-        [HttpPost("city")]
+        [HttpPost("City")]
         public async Task<ActionResult> GetCountry(IpRequest ip)
         {
             using var client = new HttpClient();
@@ -41,7 +41,7 @@ namespace CourseWebApplication.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest("No such ip");
             }
             return Ok(new IpResponse { Country = country, City = city });
         }
@@ -64,14 +64,17 @@ namespace CourseWebApplication.Controllers
                 foreach (var pair in dictionary)
                 {
                     string loc = pair.Value.Loc;
+                    if (!loc.Contains(','))
+                        return BadRequest("Private ip");
                     string[] coordinates = loc.Split(',');
                     latitude = Convert.ToDouble(coordinates[0].Replace('.', ','));
                     longitude = Convert.ToDouble(coordinates[1].Replace('.', ','));
+                    Console.WriteLine(latitude+" "+longitude);
                 }
             }
             catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest("No such ip");
             }
 
             var coordinatesOfPoints = _pointRepository.GetAllCoordinates();
@@ -80,7 +83,7 @@ namespace CourseWebApplication.Controllers
                 (double, double)? foundPoint = null;
                 FindNearCoord(coordinatesOfPoints, latitude, longitude, ref foundPoint);
                 if (foundPoint != null)
-                    return Ok(new NearCoordResponse { FoundCoord = foundPoint });
+                    return Ok(new NearCoordResponse { FoundCoord = new List<double> { foundPoint.Value.Item1, foundPoint.Value.Item2 } });
             }
             return NotFound();
         }
@@ -94,7 +97,7 @@ namespace CourseWebApplication.Controllers
                 (double, double)? foundPoint = null;
                 FindNearCoord(coordinatesOfPoints, pointRequest.Latitude, pointRequest.Longitude, ref foundPoint);
                 if(foundPoint!=null)
-                    return Ok(new NearCoordResponse {FoundCoord=foundPoint});
+                    return Ok(new NearCoordResponse { FoundCoord = new List<double> { foundPoint.Value.Item1, foundPoint.Value.Item2 } });
             }
             return NotFound();
         }
@@ -112,16 +115,15 @@ namespace CourseWebApplication.Controllers
             }   
         }
 
-        [HttpGet("AllMessages")]
+        [HttpPost("AllMessages")]
         public async Task<ActionResult> GetAllowedMessages(PointRequest pointRequest)
         {
             Point point = await _pointRepository.GetPointByCoordinates(pointRequest);
 
             if (point == null)
-                return NotFound();
+                return BadRequest("No point with such coordinates");
 
-            Console.WriteLine(DateTime.Today.Date.ToString());
-            var (messages, error) = await _pointRepository.GetMessages(new GetMessagesRequest { Id = point.Id.ToString(), Date = DateTime.Today.Date.ToString() });
+            var (messages, error) = await _pointRepository.GetMessages(new GetMessagesRequest { Id = point.Id.ToString(), Date = DateTime.Today.ToShortDateString() });
 
             if (error != null)
                 return BadRequest(error);

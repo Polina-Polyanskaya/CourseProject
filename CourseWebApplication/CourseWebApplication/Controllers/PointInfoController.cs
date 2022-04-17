@@ -36,7 +36,7 @@ namespace CourseWebApplication.Controllers
         [HttpPost("Info")]
         public async Task<ActionResult> AddInfo(InfoRequest infoRequest)
         {
-            if(!Guid.TryParse((ReadOnlySpan<char>)infoRequest.Id.ToString(), out _))
+            if (!Guid.TryParse((ReadOnlySpan<char>)infoRequest.Id.ToString(), out _))
             {
                 return BadRequest("It is not Guid");
             }
@@ -63,7 +63,7 @@ namespace CourseWebApplication.Controllers
             if (point == null)
                 return NotFound();
 
-            return Ok(new PointResponse {Id=point.Id });
+            return Ok(new PointResponse { Id = point.Id });
         }
 
         [HttpPost("GetMessages")]
@@ -74,14 +74,23 @@ namespace CourseWebApplication.Controllers
             if (error != null)
                 return BadRequest(error);
 
-            return Ok(new GetMessagesResponse { Messages=messages });
+            return Ok(new GetMessagesResponse { Messages = messages });
         }
 
 
         [HttpGet]
         public ActionResult GetAllCoordinates()
         {
-            return Ok(new GetAllCoordinatesResponse { Coordinates = _pointRepository.GetAllCoordinates()});
+            var coord = _pointRepository.GetAllCoordinates();
+            var latitudes = new List<double>();
+            var longitudes = new List<double>();
+            foreach(var item in coord)
+            {
+                latitudes.Add(item.Item1);
+                longitudes.Add(item.Item2);
+            }    
+
+            return Ok(new GetAllCoordinatesResponse {Latitude=latitudes, Longitude=longitudes  });
         }
     }
 }

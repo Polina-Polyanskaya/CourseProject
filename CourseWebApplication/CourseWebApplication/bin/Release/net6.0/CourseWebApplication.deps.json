@@ -11,6 +11,7 @@
           "AutoMapper": "11.0.1",
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "11.0.0",
           "BCrypt.Net-Next": "4.0.3",
+          "EmailAddress": "4.1.0",
           "GeoCoordinate.NetCore": "1.0.0.1",
           "IPGeolocation.IPGeolocation": "1.0.5",
           "IpInfo": "1.1.14",
@@ -63,6 +64,14 @@
           "lib/net6.0/BCrypt.Net-Next.dll": {
             "assemblyVersion": "4.0.3.0",
             "fileVersion": "4.0.3.0"
+          }
+        }
+      },
+      "EmailAddress/4.1.0": {
+        "runtime": {
+          "lib/EmailAddress.dll": {
+            "assemblyVersion": "4.1.0.0",
+            "fileVersion": "4.1.0.0"
           }
         }
       },
@@ -661,6 +670,13 @@
       "sha512": "sha512-W+U9WvmZQgi5cX6FS5GDtDoPzUCV4LkBLkywq/kRZhuDwcbavOzcDAr3LXJFqHUi952Yj3LEYoWW0jbEUQChsA==",
       "path": "bcrypt.net-next/4.0.3",
       "hashPath": "bcrypt.net-next.4.0.3.nupkg.sha512"
+    },
+    "EmailAddress/4.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Yri8GC9GKO7JeR+bQuVi0+MFiQCxyif412Gqi91sq5CcSZf9GWclxXnmakvcq7tr1569AAYoWolD2HiMaA6Yrg==",
+      "path": "emailaddress/4.1.0",
+      "hashPath": "emailaddress.4.1.0.nupkg.sha512"
     },
     "GeoCoordinate.NetCore/1.0.0.1": {
       "type": "package",

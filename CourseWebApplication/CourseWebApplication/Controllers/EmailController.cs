@@ -28,7 +28,8 @@ namespace WebApp.Controllers
             string password = _configuration["Data:Password"];
 
             int code = await _emailService.SendEmail(login, to.Email, password, subject);
-
+            if (code == -1)
+                return BadRequest("Sending email failed"); 
             return Ok(new SendMessageReponse() { Code = code });
         }
     }

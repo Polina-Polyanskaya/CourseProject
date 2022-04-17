@@ -5,6 +5,6 @@ namespace CourseWebApplication.Models.Responses
     public class NearCoordResponse
     {
         [Required]
-        public (double, double)? FoundCoord { get; set; }
+        public List<double> FoundCoord { get; set; }
     }
 }

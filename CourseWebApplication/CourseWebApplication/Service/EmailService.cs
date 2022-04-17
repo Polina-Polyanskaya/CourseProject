@@ -8,23 +8,31 @@ namespace WebApp.Models
     {
         public async Task<int> SendEmail(string from, string to, string password, string subject)
         {
-            var emailMessage = new MimeMessage();
-
-            emailMessage.From.Add(new MailboxAddress("Отправитель: ", from));
-            emailMessage.To.Add(new MailboxAddress("Получатель: ", to));
-            emailMessage.Subject = subject;
             int code = Generator.GetRandom();
-            emailMessage.Body = new TextPart("plain")
+            try
             {
-                Text = "Ваш код для регистрации: " + code
-            };
+                var emailMessage = new MimeMessage();
 
-            using (var client = new SmtpClient())
+                emailMessage.From.Add(new MailboxAddress("Отправитель: ", from));
+                emailMessage.To.Add(new MailboxAddress("Получатель: ", to));
+                emailMessage.Subject = subject;
+                
+                emailMessage.Body = new TextPart("plain")
+                {
+                    Text = "Ваш код для регистрации: " + code
+                };
+
+                using (var client = new SmtpClient())
+                {
+                    await client.ConnectAsync("smtp.gmail.com", 587);
+                    await client.AuthenticateAsync(from, password);
+                    await client.SendAsync(emailMessage);
+                    await client.DisconnectAsync(true);
+                }
+            }
+            catch(Exception ex)
             {
-                await client.ConnectAsync("smtp.gmail.com", 587);
-                await client.AuthenticateAsync(from, password);
-                await client.SendAsync(emailMessage);
-                await client.DisconnectAsync(true);
+                code = -1;
             }
             return code;
         }

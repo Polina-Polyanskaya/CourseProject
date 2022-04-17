@@ -17,6 +17,8 @@ namespace WebApp.Jwt
         public async Task<string> AddUser(User user)
         {
             if (await _context.Users.AnyAsync(x => x.Login == user.Login))
+                return "User with such login already exists.";
+            if (await _context.Users.AnyAsync(x => x.Email == user.Email))
                 return "User with such email already exists.";
             user.Password=BcryptPasswordHasher.HashPassword(user.Password);
             await _context.Users.AddAsync(user);
@@ -51,7 +53,7 @@ namespace WebApp.Jwt
 
         public async Task<User> GetUser(CheckUserRequest user)
         {
-            return await _context.Users.SingleOrDefaultAsync(x => x.Login == user.Login || x.Email == user.Email);
+            return await _context.Users.SingleOrDefaultAsync(x => x.Login == user.Login && x.Email == user.Email);
         }
     }
 }
